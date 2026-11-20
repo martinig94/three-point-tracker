@@ -1,9 +1,9 @@
 # Three-point tracker
 
 Small Streamlit app where Giulia and Martina log the three-point shots they
-made on a given date. It plots their combined cumulative progress towards 250
-made threes by the end of the season, plus a weekly breakdown with a trend
-line.
+made on a given date, optionally without saying who made them. It plots their
+combined cumulative progress towards 250 made threes by the end of the season,
+plus a weekly breakdown with a trend line.
 
 ## Run locally
 

@@ -17,6 +17,8 @@ from three_point_tracker.stats import (
 from three_point_tracker.storage import create_tables, load_shots, log_shots
 
 PLAYERS = ("Giulia", "Martina")
+UNASSIGNED = "Not specified"
+SCORERS = (*PLAYERS, UNASSIGNED)
 TEAM = "Together"
 GOAL = 250
 SEASON_END = date(2027, 5, 31)
@@ -47,13 +49,13 @@ engine = get_engine()
 
 with st.form("log_shots", border=True):
     player = st.segmented_control(
-        "Player", PLAYERS, default=PLAYERS[0], required=True, key="player"
+        "Made by", SCORERS, default=SCORERS[0], required=True, key="player"
     )
     shot_date = st.date_input("Date", max_value="today", key="shot_date")
     made = st.number_input("Threes made", min_value=0, step=1, key="made")
     if st.form_submit_button("Save", type="primary", icon=":material/save:"):
         log_shots(engine, player, shot_date, made)
-        st.toast(f"Saved {made} threes for {player} on {shot_date:%d %b}")
+        st.toast(f"Saved {made} threes ({player}) on {shot_date:%d %b}")
 
 shots = load_shots(engine)
 if shots.empty:
@@ -94,7 +96,7 @@ with st.container(border=True):
         delta_color="off",
     )
 
-series_order = [TEAM, *PLAYERS]
+series_order = [TEAM, *SCORERS]
 series_color = alt.Color("player:N", title=None, scale=alt.Scale(domain=series_order))
 
 st.subheader("Progress towards the goal")
